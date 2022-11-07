@@ -1,5 +1,4 @@
 # blogs-api
-# Pizza App
 This is an api for a blog app
 
 ### User
@@ -15,7 +14,7 @@ This is an api for a blog app
 | field  |  data_type | constraints  |
 |---|---|---|
 |  title |  string |  required |
-|  description|   string  |    |
+|  description|   string  |  optional  |
 |  body  | string |  required  |
 |  author   | objectId |  required |
 |  authorId |   objectId |  required  |
