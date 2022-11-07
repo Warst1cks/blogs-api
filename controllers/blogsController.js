@@ -1,10 +1,8 @@
 const blogs = require("../models/blogsModel");
-// const Users = require("../models/userModel");
+// const User = require("../models/userModel");
 const createBlog = async (req, res, next) => {
   try {
-    const blogDetails = { ...req.body, author:`${req.User.firstname}` `${req.User.lastname}`,author_id:req.User._id };
-    // const blog = req.body
-    console.log(req.body._id);
+    const blogDetails = { ...req.body , author: req.user._id};
     const blogToCreate = await blogs.create(blogDetails);
     return res.status(201).json({
       status: "success",
@@ -26,7 +24,7 @@ const getAllBlogs = async (req, res, next) => {
     }
      if (req.query.state == "published") {
        const publishedBlogs = await blogs.find({ state: "published" });
-      res.json(draftedBlogs);
+      res.json(publishedBlogs);
      }
     return res.status(200).json({
       status: "success",
@@ -40,10 +38,12 @@ const getAllBlogs = async (req, res, next) => {
 
 const getBlogById = async (req, res, next) => {
   try {
-    const {id} = req.params
-    const blog = await blogs.findOne(id).populate("author_id").select("-password");
+    const id = req.params._id
+    // const author = req.user.author
+    const blog = await blogs.findOne(id).populate("author_id").select("-password")
+    
     blog.read_count += 1;
-    blogs.save()
+    blog.save();
     return res.status(200).json({
       status: "success",
       data: { blog },
@@ -54,9 +54,9 @@ const getBlogById = async (req, res, next) => {
 };
 const updateBlog = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const id = req.params._id;
     const blogToUpdate = await blogs.findById(id)
-    if(blogToUpdate.author._id.toString() !== id) return next(new Error("blog is not found"))
+    if(blogToUpdate.user._id.toString() !== id) return next(new Error("blog is not found"))
     if (!blogToUpdate) return next(new Error("blog not found!"));
     const updatedBlog = await blogs.findByIdAndUpdate(id, req.body, {
       new: true,

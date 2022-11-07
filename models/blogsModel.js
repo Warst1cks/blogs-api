@@ -23,7 +23,7 @@ const blogsSchema = new Schema({
   },
   author_id:{
     type : ObjectId,
-    ref:"User",
+    ref:"user",
   },
   state: {
     type: String,
