@@ -17,11 +17,10 @@ This is an api for a blog app
 |  description|   string  |  optional  |
 |  body  | string |  required  |
 |  author   | objectId |  required |
-|  authorId |   objectId |  required  |
 |  state | string  |  required,default:"draft"|
-|  read_count |  number |  required |
-|  reading_time |  number |  |
-|  time_stamp |  date |  default |
+|  read_count |  number |optional |
+|  reading_time |  number | optional |
+|  time_stamp |  date |  optional |
 |  tags|  [string] | optional |
 
 
