@@ -77,4 +77,4 @@ This is an api for a blog app
     - Authorization: Bearer {token}
      
 ## Contributor
-- Daniel Adesoji
+- Samuel Warrie
