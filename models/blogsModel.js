@@ -23,7 +23,6 @@ const blogsSchema = new Schema({
   },
   author_id:{
     type : ObjectId,
-    required: [true, "An id is required"],
     ref:"User",
   },
   state: {

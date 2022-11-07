@@ -11,7 +11,7 @@ deleteBlog,
 
 blogsRouter.post("/create", passport.authenticate("jwt",{session: false }), createBlog);
 blogsRouter.get("/get", getAllBlogs);
-blogsRouter.get("/get", getBlogById);
+blogsRouter.get("/:id", getBlogById);
 blogsRouter.patch("/:id", passport.authenticate("jwt",{session: false }), updateBlog);
 blogsRouter.delete("/:id", passport.authenticate("jwt",{session: false }), deleteBlog);
 

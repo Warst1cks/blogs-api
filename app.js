@@ -14,8 +14,8 @@ require("./middlewares/passport")
 app.post("/signup",(req,res,next) => {})
 app.post("/signin", (req, res, next) => {});
 
-// app.use((err,req,res,next) => {
-//  const message = err.message || "internal server error";
-//  return res.status(500).json({message})
-// })
+app.use((err,req,res,next) => {
+ const message = err.message || "internal server error";
+ return res.status(500).json({message})
+})
 module.exports = app
