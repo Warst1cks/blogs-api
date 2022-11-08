@@ -6,22 +6,22 @@ This is an api for a blog app
 |---|---|---|
 |  firstname | string  |  required |
 |  lastname  |  string |  required |
-|  email     | string  |  required |
+|  email     | string  |  required & unique |
 |  password |   string |  required |
 
 
 ### blogs
 | field  |  data_type | constraints  |
 |---|---|---|
-|  title |  string |  required |
+|  title |  string |  required & unique|
 |  description|   string  |  optional  |
 |  body  | string |  required  |
-|  author   | objectId |  required |
+|  author   | string |  dynamically-assigned |
 |  state | string  |  required,default:"draft"|
-|  read_count |  number |optional |
-|  reading_time |  number | optional |
-|  time_stamp |  date |  optional |
-|  tags|  [string] | optional |
+|  read_count |  number |default : 0 |
+|  reading_time |  number | dynamically-assigned |
+|  time_stamp |  date |  default:current time |
+|  tags|  array | optional |
 
 
 
