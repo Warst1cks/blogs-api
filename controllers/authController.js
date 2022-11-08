@@ -20,7 +20,7 @@ const signup = async (req,res,next) => {
       })
       user.password = undefined
       const generatedToken = generateToken(user)
-      return res.status(201).json({
+      return res.status(200).json({
         status: "success",
         generatedToken,
         data:{user},

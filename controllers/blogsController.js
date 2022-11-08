@@ -2,7 +2,7 @@ const blogs = require("../models/blogsModel");
 // const User = require("../models/userModel");
 const createBlog = async (req, res, next) => {
   try {
-    const blogDetails = { ...req.body , author: req.user._id};
+    const blogDetails = { ...req.body , authorId: req.user._id, author : `${req.user.firstname} ${req.user.lastname}` };
     const blogToCreate = await blogs.create(blogDetails);
     return res.status(201).json({
       status: "success",
@@ -38,9 +38,9 @@ const getAllBlogs = async (req, res, next) => {
 
 const getBlogById = async (req, res, next) => {
   try {
-    const id = req.params._id
+    const id = req.params.id
     // const author = req.user.author
-    const blog = await blogs.findOne(id).populate("author_id").select("-password")
+    const blog = await blogs.findById(id).populate("authorId","-password")
     
     blog.read_count += 1;
     blog.save();
@@ -54,9 +54,9 @@ const getBlogById = async (req, res, next) => {
 };
 const updateBlog = async (req, res, next) => {
   try {
-    const id = req.params._id;
+    const id = req.params.id;
     const blogToUpdate = await blogs.findById(id)
-    if(blogToUpdate.user._id.toString() !== id) return next(new Error("blog is not found"))
+    if(blogToUpdate.authorId.toString() !== req.user._id) return next(new Error("blog is not found"))
     if (!blogToUpdate) return next(new Error("blog not found!"));
     const updatedBlog = await blogs.findByIdAndUpdate(id, req.body, {
       new: true,
@@ -74,11 +74,10 @@ const deleteBlog = async (req, res, next) => {
   try {
     const { id } = req.params;
     const blogToDelete = await blogs.findById(id);
-    if (blogToDelete.author._id.toString() !== id)
-      return next(new Error("blog is not found"));
+        if (blogToDelete.authorId.toString() !== req.user._id)
+          return next(new Error("blog is not found"));
     if (!blogToDelete) return next(new Error("blog not found!"));
     const deletedBlog = await blogs.findByIdAndDelete(id);
-    if (!deletedBlog) return next(new Error("blog not found!"));
     return res.status(204).json({
       status: "success",
       data: {},

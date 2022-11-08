@@ -18,12 +18,12 @@ const blogsSchema = new Schema({
     required: [true, "A body is required"],
   },
   author: {
-    type: ObjectId,
+    type: String,
     trim: true,
   },
-  author_id:{
+  authorId:{
     type : ObjectId,
-    ref:"user",
+    ref:"User",
   },
   state: {
     type: String,
