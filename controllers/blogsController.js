@@ -3,10 +3,10 @@ const blogs = require("../models/blogsModel");
 const createBlog = async (req, res, next) => {
   try {
     const blogDetails = { ...req.body , authorId: req.user._id, author : `${req.user.firstname} ${req.user.lastname}` };
-    const blogToCreate = await blogs.create(blogDetails);
+    const blog = await blogs.create(blogDetails);
     return res.status(201).json({
       status: "success",
-      data: { blogToCreate },
+      data: { blog },
     });
   } catch (error) {
     return next(error);
@@ -17,7 +17,7 @@ const getAllBlogs = async (req, res, next) => {
     let page = +req.query.page || 1
     const limit = 20;
     const skip = (page - 1) * limit
-    const getBlogs = await blogs.find().skip(skip).limit(limit);
+    const blog = await blogs.find().skip(skip).limit(limit);
     if(req.query.state == 'draft'){
       const draftedBlogs = await blogs.find({state : "draft"});
       res.json(draftedBlogs);
@@ -28,7 +28,7 @@ const getAllBlogs = async (req, res, next) => {
      }
     return res.status(200).json({
       status: "success",
-      data: { getBlogs },
+      data: { blog },
     });
   } catch (error) {
     return next(error);
@@ -58,13 +58,13 @@ const updateBlog = async (req, res, next) => {
     const blogToUpdate = await blogs.findById(id)
     if(blogToUpdate.authorId.toString() !== req.user._id) return next(new Error("blog is not found"))
     if (!blogToUpdate) return next(new Error("blog not found!"));
-    const updatedBlog = await blogs.findByIdAndUpdate(id, req.body, {
+    const blog = await blogs.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
-    return res.status(201).json({
+    return res.status(200).json({
       status: "success",
-      data: { updatedBlog },
+      data: { blog },
     });
   } catch (error) {
     return next(error);
