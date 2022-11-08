@@ -2,7 +2,16 @@ const blogs = require("../models/blogsModel");
 // const User = require("../models/userModel");
 const createBlog = async (req, res, next) => {
   try {
-    const blogDetails = { ...req.body , authorId: req.user._id, author : `${req.user.firstname} ${req.user.lastname}` };
+    const blogDetails = {
+      ...req.body,
+      authorId: req.user._id,
+      author: `${req.user.firstname} ${req.user.lastname}`,
+    };
+    const words =
+    title.split("").length +
+    body.split("").length + (blogDetails.description ? blogDetails.description.split("").length:0);
+    const reading_time = words/200;
+    blogDetails.reading_time = reading_time;
     const blog = await blogs.create(blogDetails);
     return res.status(201).json({
       status: "success",
